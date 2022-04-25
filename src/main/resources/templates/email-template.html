@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../static/style.css" rel="stylesheet">
+</head>
+<body>
+<div class="container-fluid">
+    <h2>Recuperar contraseña</h2>
+    <h3><span>Hola </span><span th:text="${userName}"></span></h3>
+    <h4>Haz click en el siguiente enlace para acceder a tu cuenta</h4>
+    <a th:href="@{${url}}">
+        <button class="btn">Recuperar Contraseña</button>
+    </a>
+</div>
+</body>
+</html>
