@@ -33,9 +33,8 @@ public class Producto implements Serializable {
     private int cantidad;
 
     @NotNull
-    @ManyToOne
-    @JoinColumn(name="id_categoria")
-    private Categoria id_Categoria;
+    @Column(name="nombre_categoria")
+    private String NombreCategoria;
 
     @NotNull
     private String nombre_imagen;

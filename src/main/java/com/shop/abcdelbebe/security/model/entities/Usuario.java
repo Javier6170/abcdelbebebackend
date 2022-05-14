@@ -34,8 +34,8 @@ public class Usuario implements Serializable {
     @NotBlank
     @Min(8)
     private String password;
-
     private String tokenPassword;
+    private String nombre_imagen;
 
     @NotNull
     @ManyToMany(fetch = FetchType.EAGER)

@@ -1,6 +1,7 @@
 package com.shop.abcdelbebe.security.controller;
 
 import com.shop.abcdelbebe.dto.Mensaje;
+import com.shop.abcdelbebe.security.dto.ChangeImagenDTO;
 import com.shop.abcdelbebe.security.dto.JwtDto;
 import com.shop.abcdelbebe.security.dto.LoginUsuario;
 import com.shop.abcdelbebe.security.dto.NuevoUsuario;
@@ -94,6 +95,24 @@ public class AuthController {
         return new ResponseEntity(jwtDto, HttpStatus.OK);
     }
 
+    @GetMapping("/user/{correo}")
+    public Optional<Usuario> getUsuario(@Valid @PathVariable(name="correo") String correo){
+        if (usuarioService.exitsByCorreo(correo)) {
+            return  usuarioService.getByCorreo(correo);
+        }
+        return null;
+    }
+
+    @PostMapping("/editarImagen/{correo}")
+    public ResponseEntity<?> EditarImagenUsuario(@Valid @RequestBody ChangeImagenDTO dto){
+        if (usuarioService.exitsByCorreo(dto.getCorreo())) {
+            Usuario usuario = usuarioService.getByCorreo(dto.getCorreo()).get();
+            usuario.setNombre_imagen(dto.getNombre_imagen());
+            usuarioService.save(usuario);
+            return new ResponseEntity(new Mensaje("Se ha cambiado correctamente la imagen"), HttpStatus.OK);
+        }
+        return new ResponseEntity(new Mensaje("No se ha cambiado el nombre de la imagen"), HttpStatus.BAD_REQUEST);
+    }
     @GetMapping("/recoverPassword/{correo}")
     public Optional<Usuario> recoverPasswordUser(@Valid @PathVariable(name = "correo") String correo){
         if (usuarioService.exitsByCorreo(correo)){

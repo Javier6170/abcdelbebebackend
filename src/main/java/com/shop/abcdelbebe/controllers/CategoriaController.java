@@ -11,16 +11,18 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/categoria")
 @CrossOrigin
 public class CategoriaController {
-    @Autowired
-    CategoriaService categoriaService;
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping
+    @Autowired
+    private CategoriaService categoriaService;
+
+
+    @PostMapping("/nuevo")
     public ResponseEntity<?> crearProducto(@Valid  @RequestBody  Categoria categoria) {
         categoriaService.save(categoria);
         return new ResponseEntity(new Mensaje("Se ha añadido con exito tu categoria"), HttpStatus.CREATED);
@@ -32,7 +34,12 @@ public class CategoriaController {
         return new ResponseEntity(new Mensaje("Se ha eliminado con exito tu categoria"), HttpStatus.ACCEPTED);
     }
 
-    @GetMapping
+    @PostMapping("/categoriaByNombre")
+    public Optional<Categoria> categoriaByNombre(String nombre_categoria){
+        return categoriaService.findByNombre(nombre_categoria);
+    }
+
+    @GetMapping("/listaCategoria")
     public List<Categoria> listaCategorias(){
         return categoriaService.listaCategorias();
     }

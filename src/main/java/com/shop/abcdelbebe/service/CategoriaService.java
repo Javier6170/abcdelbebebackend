@@ -7,9 +7,11 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
-@Transactional
+
 @Service
+@Transactional
 public class CategoriaService {
     @Autowired
     CategoriaRepository categoriaRepository;
@@ -21,4 +23,7 @@ public class CategoriaService {
     public List<Categoria> listaCategorias(){return categoriaRepository.findAll();}
 
 
+    public Optional<Categoria> findByNombre(String nombreCategoria) {
+        return categoriaRepository.findByNombreCategoria(nombreCategoria);
+    }
 }
