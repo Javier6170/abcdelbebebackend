@@ -24,6 +24,9 @@ public class ProductoController {
     @Autowired
     private ProductoService prodcutoService;
 
+    @Autowired
+    ImagenRepository imagenRepository;
+
     @PostMapping("/nuevo")
     public ResponseEntity<?> crearProducto(@Valid  @RequestBody Producto producto) throws IOException {
         prodcutoService.save(producto);
@@ -66,6 +69,10 @@ public class ProductoController {
     public ResponseEntity<?> delete(@PathVariable("id")long id){
         if(!prodcutoService.existsById(id))
             return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);
+        Producto producto = prodcutoService.getOne(id).get();
+        String nameImagen = producto.getNombre_imagen();
+        Imagen imagen = imagenRepository.findByName(nameImagen).get();
+        imagenRepository.delete(imagen);
         prodcutoService.delete(id);
         return new ResponseEntity(new Mensaje("producto eliminado"), HttpStatus.OK);
     }
