@@ -21,15 +21,19 @@ public class Venta {
     private String estado;
 
     @NotNull
+    private String direccion;
+
+    @NotNull
     @Column(name="fecha_compra")
     private Date fechaCompra;
 
-    @ManyToOne
-    @JoinColumn(name= "id_producto")
-    private Producto producto;
+    private int mes;
 
-    @ManyToOne
-    @JoinColumn(name = "id_usuario")
-    private Usuario usuario;
+    @NotNull
+    private int id_producto;
+
+    @NotNull
+    @Column(name="correo_usuario")
+    private String correoUsuario;
 
 }

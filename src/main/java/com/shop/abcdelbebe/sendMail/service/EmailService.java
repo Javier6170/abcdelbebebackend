@@ -1,6 +1,7 @@
 package com.shop.abcdelbebe.sendMail.service;
 
 import com.shop.abcdelbebe.sendMail.dto.EmailValuesDTO;
+import com.shop.abcdelbebe.sendMail.dto.VentaUserDTO;
 import com.shop.abcdelbebe.sendMail.dto.WelcomeUserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -69,6 +70,27 @@ public class EmailService {
             helper.setFrom(dto.getMailFrom());
             helper.setTo(dto.getMailTo());
             helper.setSubject("Bienvenido");
+            helper.setText(htmlText, true);
+            javaMailSender.send(message);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendEmailventa(VentaUserDTO dto){
+        MimeMessage message = javaMailSender.createMimeMessage();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            Context context = new Context();
+            Map<String, Object> model = new HashMap<>();
+            model.put("estado", dto.getEstadoVenta());
+            model.put("nombreProducto", urlFront + dto.getNombreProducto());
+            model.put("direccion", urlFront + dto.getDireccion());
+            context.setVariables(model);
+            String htmlText = templateEngine.process("venta-creada", context);
+            helper.setFrom(dto.getMailFrom());
+            helper.setTo(dto.getMailTo());
+            helper.setSubject("COMPRA CREADA CON EXITO - ABC del bebe");
             helper.setText(htmlText, true);
             javaMailSender.send(message);
         } catch (MessagingException e) {
